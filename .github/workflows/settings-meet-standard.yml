@@ -4,10 +4,12 @@ on:
   workflow_dispatch:
     inputs:
         repository:
+          type: string
           description: 'Repository name'
           required: true
-        organization:
-          description: 'Organization name'
+        organisation:
+          description: 'organisation name'
+          type: string
           required: true
 
 jobs:
@@ -21,7 +23,7 @@ jobs:
           github-token: ${{ secrets.GK_PAT}}
           script: |
             await github.rest.repos.update({
-              owner: '${{ github.event.inputs.organization }}',
+              owner: '${{ github.event.inputs.organisation }}',
               repo: '${{ github.event.inputs.repository }}',
               has_issues: true,
               has_pages: false,
@@ -45,7 +47,7 @@ jobs:
          script: |
             const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';
             await github.rest.repos.updateBranchProtection({
-              owner: '${{ github.event.inputs.organization }}',
+              owner: '${{ github.event.inputs.organisation }}',
               repo: '${{ github.event.inputs.repository }}',
               branch: defaultBranch,
               required_pull_request_reviews: {
@@ -78,7 +80,7 @@ jobs:
          github-token: ${{ secrets.GK_PAT }}
          script: |
             await github.rest.repos.enableVulnerabilityAlerts({
-              owner: '${{ github.event.inputs.organization }}',
+              owner: '${{ github.event.inputs.organisation }}',
               repo: '${{ github.event.inputs.repository }}'
             });
 
@@ -89,7 +91,7 @@ jobs:
          script: | 
             const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';     
             await github.rest.repos.createCommitSignatureProtection({
-              owner: '${{ github.event.inputs.organization }}',
+              owner: '${{ github.event.inputs.organisation }}',
               repo: '${{ github.event.inputs.repository }}',
               branch: defaultBranch
             }); 
