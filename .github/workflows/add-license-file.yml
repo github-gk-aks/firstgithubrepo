@@ -4,7 +4,8 @@ on:
   push:
   workflow_dispatch:
     inputs:
-      license_content:
+      licenseContent:
+        type: string
         description: 'Base64-encoded license content'
         required: true
 
@@ -20,8 +21,8 @@ jobs:
       - name: Decode license content
         id: decode-license
         run: |
-          echo "${{ inputs.license_content }}" | base64 -d
-          echo "::set-output name=decoded_license::$(echo "${{ inputs.license_content }}" | base64 -d)"
+          echo "${{ inputs.licenseContent }}" | base64 -d
+          echo "::set-output name=decoded_license::$(echo "${{ inputs.licenseContent }}" | base64 -d)"
 
       - name: Check if license file exists
         id: check-license
