@@ -30,6 +30,8 @@ jobs:
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
             echo "${{ inputs.licenseContent }}" > LICENSE
+            git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
+            git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
             git add LICENSE
             git commit -m "Add LICENSE file"
             git push origin github-migration
