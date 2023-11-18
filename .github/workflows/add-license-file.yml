@@ -38,7 +38,7 @@ jobs:
             git config commit.gpgsign true
             git config user.signingkey $GPG_KEY_ID
             git config gpg.program /tmp/gpg.sh
-            env:
+        env:
             GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
     #   - name: Decode license content
