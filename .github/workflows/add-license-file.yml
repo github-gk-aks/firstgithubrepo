@@ -54,10 +54,10 @@ jobs:
       - name: Check if license file exists
         id: check-license
         run: |
-          const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';
+          defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';
           git fetch
-          git checkout defaultBranch
-          git pull origin defaultBranch
+          git checkout $defaultBranch
+          git pull origin $defaultBranch
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
             git checkout github-migration
