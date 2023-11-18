@@ -50,6 +50,7 @@ jobs:
       - name: Check if license file exists
         id: check-license
         run: |
+          git fetch
           git checkout main
           git pull origin main
           if [ ! -f "LICENSE" ]; then
