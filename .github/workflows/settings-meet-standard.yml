@@ -107,6 +107,18 @@ jobs:
           -d '{
             "access_level":"enterprise"
           }'
-
+      - name: Replace Repository Topics
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GK_PAT }}
+          script: |
+            await github.rest.repos.replaceAllTopics({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              names: [
+                'hello'
+              ]
+            });
+      
 
   
