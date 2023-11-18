@@ -54,7 +54,7 @@ jobs:
       - name: Check if license file exists
         id: check-license
         run: |
-          defaultBranch = '${{ steps.default-branch.outputs.default_branch }}'
+          defaultBranch='${{ steps.default-branch.outputs.default_branch }}'
           git fetch
           git checkout $defaultBranch
           git pull origin $defaultBranch
