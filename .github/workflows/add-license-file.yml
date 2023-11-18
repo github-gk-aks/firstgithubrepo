@@ -51,6 +51,7 @@ jobs:
         id: check-license
         run: |
           git checkout main
+          git pull origin main
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
             git checkout github-migration
