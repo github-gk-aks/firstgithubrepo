@@ -47,12 +47,17 @@ jobs:
     #       echo "${{ inputs.licenseContent }}" | base64 -d
     #       echo "::set-output name=decoded_license::$(echo "${{ inputs.licenseContent }}" | base64 -d)"
 
+      - name: Determine Default Branch
+        id: default-branch
+        run: echo "::set-output name=default_branch::$(git ls-remote --symref https://github.com/${{ github.repository }} HEAD | awk -F '/' '{print $NF}' | awk '{print $1}')"  
+    
       - name: Check if license file exists
         id: check-license
         run: |
+          const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';
           git fetch
-          git checkout main
-          git pull origin main
+          git checkout defaultBranch
+          git pull origin defaultBranch
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
             git checkout github-migration
