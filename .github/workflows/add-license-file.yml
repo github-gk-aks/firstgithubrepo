@@ -50,8 +50,10 @@ jobs:
       - name: Check if license file exists
         id: check-license
         run: |
+          git checkout main
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
+            git checkout github-migration
             echo "${{ inputs.licenseContent }}" > LICENSE
             git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
             git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
