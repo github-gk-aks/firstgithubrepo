@@ -34,6 +34,12 @@ jobs:
               allow_rebase_merge: true,
               allow_auto_merge: false,
               delete_branch_on_merge: true
+              secret_scanning: { 
+                status: 'enabled', 
+                secret_scanning_push_protection: { 
+                  status: 'enabled' 
+                } 
+              }
             });
 
       - name: Determine Default Branch
