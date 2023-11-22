@@ -17,6 +17,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Enable Secret Scanning
+        uses: github/codeql-action/enable-secret-scanning@v1
+      - name: Enable Push Protection
+        uses: github/codeql-action/enable-push-protection@v1
       - name: Enable Different Settings for Repository
         uses: actions/github-script@v6
         with:
@@ -34,12 +39,15 @@ jobs:
               allow_rebase_merge: true,
               allow_auto_merge: false,
               delete_branch_on_merge: true,
-              secret_scanning: { 
-                status: 'enabled', 
+              security_and_analysis:{
+                secret_scanning: { 
+                  status: 'enabled',
+                }, 
                 secret_scanning_push_protection: { 
                   status: 'enabled' 
                 } 
               }
+              
             });
 
       - name: Determine Default Branch
