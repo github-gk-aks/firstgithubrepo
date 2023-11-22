@@ -17,11 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Enable Secret Scanning
-        uses: github/codeql-action/enable-secret-scanning@v1
-      - name: Enable Push Protection
-        uses: github/codeql-action/enable-push-protection@v1
       - name: Enable Different Settings for Repository
         uses: actions/github-script@v6
         with:
