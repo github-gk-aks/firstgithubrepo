@@ -1,10 +1,12 @@
 name: Add Teams to GitHub Advanced Security Alerts
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
   add-teams:
+    if: ${{ github.event_name != 'push' }}
     runs-on: ubuntu-latest
 
     steps:
