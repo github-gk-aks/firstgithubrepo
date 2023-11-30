@@ -1,7 +1,7 @@
 name: Add Teams to GitHub Advanced Security Alerts
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   add-teams:
