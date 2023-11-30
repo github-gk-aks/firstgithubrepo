@@ -21,7 +21,7 @@ jobs:
         GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
         # Get repository teams
-        teams=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/teams" | jq -r '.[].slug // empty')
+        teams=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/teams" | jq -r '.[].slug')
 
         # Loop through teams and add teams to GitHub Advanced Security access list
         for team in $teams; do
