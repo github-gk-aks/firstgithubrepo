@@ -13,14 +13,10 @@ jobs:
 
     - name: Add teams to GitHub Advanced Security
       run: |
-        # Set your repository owner and name
-        REPO_OWNER=your-repo-owner
-        REPO_NAME=your-repo-name
+   
+        REPO_OWNER="github-gk-aks"
+        REPO_NAME="firstgithubrepo"
 
-        # Set your GitHub token
-        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-
-        # Get repository teams
         teams=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/teams")
         echo $teams
       env:
