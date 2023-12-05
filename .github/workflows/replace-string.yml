@@ -34,12 +34,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install openpyxl
 
-      # - name: Print Debug Information
-      #   run: |
-      #     echo "EXCEL_FILE: $EXCEL_FILE"
-      #     echo "GITHUB_WORKSPACE: ${{ github.workspace }}"
-      #     echo "YML Files: $(find $GITHUB_WORKSPACE -name '*.yml')"
-
       - name: Replace Strings in YML files
         run: |
           python script/string-replaces.py
@@ -69,12 +63,24 @@ jobs:
         env:
             GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
+      - name: Check for Changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit. Skipping commit step."
+            echo "::set-output name=changes::false"
+          else
+            echo "::set-output name=changes::true"
+          fi
+        shell: bash
+ 
       - name: Commit Changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
             git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
             git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
             git add .
-            git commit -m "Files Replaced"
+            git commit -m "Replaced occurances of Old Github Org - $(date +"%Y-%m-%d %H:%M:%S")"
             git push # Replace 'branch-name' with the branch name
         env:
             GPG_KEY_PASSPHRASE: ${{ secrets.PASSPHRASE }}
