@@ -25,7 +25,7 @@ jobs:
       - name: Checking out the repository
         uses: actions/checkout@v4
         with:
-          repository: Cold-Drink-Company/Coke2litre
+          repository: Mineral-Water-Company/Coke2litre
           token: ${{ secrets.GITHUB_TOKEN}}
           ref: v2.2.1
           path: ./github/actions/Coke2litre

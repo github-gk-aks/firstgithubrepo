@@ -25,7 +25,7 @@ jobs:
       - name: Checking out the repository
         uses: actions/checkout@v4
         with:
-          repository: Cold-Drink-Company/Pepsi250mlcan
+          repository: Beverages-Only-Company/Pepsi250mlcan
           token: ${{ secrets.GITHUB_TOKEN}}
           ref: v2.2.1
           path: ./github/actions/Pepsi250mlcan
@@ -35,7 +35,7 @@ jobs:
       - name: Checking out the repository
         uses: actions/checkout@v4
         with:
-          repository: Cold-Drink-Company/SpriteBottle700ml
+          repository: Mineral-Water-Company/SpriteBottle700ml
           token: ${{ secrets.GITHUB_TOKEN}}
           ref: v2.2.1
           path: ./github/actions/SpriteBottle
