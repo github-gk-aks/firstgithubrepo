@@ -1,6 +1,7 @@
 name: Replace Strings
 
 on:
+  push:
   workflow_dispatch:
     # inputs:
     #     repository:
@@ -14,6 +15,7 @@ on:
 
 jobs:
   replace-strings:
+    if: ${{ github.event_name != 'push' }}
     runs-on: ubuntu-latest
 
     steps:
