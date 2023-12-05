@@ -44,7 +44,7 @@ jobs:
         run: |
           python script/string-replaces.py
         env:
-          EXCEL_FILE: "files/File-Replacement.xlsx"
+          EXCEL_FILE: "data/File-Replacement.xlsx"
           GITHUB_WORKSPACE: ${{ github.workspace }}
         shell: bash
 
