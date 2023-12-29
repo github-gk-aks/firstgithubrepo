@@ -65,7 +65,7 @@ jobs:
             git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
             git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
             git add LICENSE
-            git commit -m "Add LICENSE file"
+            git commit -m "Add LICENSE file - $(date +"%Y-%m-%d %H:%M:%S") "
             git push origin github-migration
           else
             echo "License file found. Skipping..."

@@ -1,0 +1,82 @@
+name: Check and Add Permissions Block
+
+on:
+  workflow_dispatch:
+
+jobs:      
+  add-permissions-block:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+       token: ${{ secrets.GK_PAT }}
+
+    # - name: Find YML Files
+    #   id: find-yml
+    #   run: |
+    #     find .github/workflows -type f -name "*.yml" -not -name 'token-permission.yml' -printf '%p\n' > file-list.txt
+    #     cat file-list.txt
+    #     echo "::set-output name=file-list::file-list.txt"
+     
+
+    - name: Find YML Files
+      id: find-yml
+      run: |
+        file_list=$(find .github/workflows -type f -name "*.yml" -not -name 'token-permission.yml' -exec echo {} +)
+        echo "File List: $file_list"
+        echo "::set-output name=file-list::$file_list"
+
+    - name: Debug File List
+      run: |
+        echo "File List: ${{ steps.find-yml.outputs.file-list }}"
+
+    # - name: Debug Check and Add Permissions Block
+    #   run: |
+    #     file_list=$(cat ${{ github.workspace }}/file-list.txt)
+    #     IFS=$'\n' read -r -d '' -a files <<< "$file_list"
+    #     for file_path in "${files[@]}"; do
+    #         echo "Checking permissions in: $file_path"
+    #         grep "permissions:" "$file_path" || true
+    #     done
+    - name: Check and Add Permissions Block
+      run: |
+        file_list="${{ steps.find-yml.outputs.file-list }}"
+        echo "File path: $file_list"
+        IFS=' ' read -r -a files <<< "$file_list"
+        echo "preparing to run the for loop"
+          for file_path in "${files[@]}"; do
+            echo "Inside the for loop"
+            if ! grep -qE "^\s*permissions:" <(grep -vE "^\s*#|^\s*//") "$file_path"; then
+              echo "Permissions block not found in $file_path. Adding..."
+              sed -i -e '/^jobs:/i \permissions: write-all\n' "$file_path" 
+            else
+              echo "Permissions block found in $file_path. Skipping..."
+            fi
+          done
+
+    - name: Check for Changes
+      id: check_changes
+      run: |
+        if git diff --quiet; then
+        echo "No changes to commit. Skipping commit step."
+        echo "::set-output name=changes::false"
+        else
+        echo "::set-output name=changes::true"
+        fi
+      shell: bash
+
+    - name: Commit Changes
+      if: steps.check_changes.outputs.changes == 'true'
+      run: |
+        git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
+        git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
+        git add .
+        git commit -m "Added Permission Block- $(date +"%Y-%m-%d %H:%M:%S")"
+        git pull origin main
+        git push # Replace 'branch-name' with the branch name
+      env:
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+        GITHUB_TOKEN: ${{ secrets.GK_PAT }}
+
+
