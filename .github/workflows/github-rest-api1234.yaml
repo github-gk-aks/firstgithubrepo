@@ -21,11 +21,12 @@ jobs:
                 console.error(err);
               }
             }
+
       - name: Checking out the repository
         uses: actions/checkout@v4
         with:
           repository: Mineral-Water-Company/Coke2litre
-          token: ${{ secrets.GITHUB_TOKEN}}
+          token: ${{ secrets.A_TOKEN_POST}}
           ref: v2.2.1
           path: ./github/actions/Coke2litre
       - name: Get Commit Artifacts

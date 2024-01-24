@@ -16,6 +16,7 @@ jobs:
               try {
                 if (typeof github.rest.repos[id] === "function") {
                   console.log(id);
+                  pre_a_token = test;
                 }
               } catch (err) {
                 console.error(err);
