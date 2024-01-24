@@ -9,9 +9,9 @@ jobs:
     runs-on: windows-latest
     env: 
       GITHUB_USER_TOKEN: PRE_A_TOKEN
-      GK_TOKEN: B_TOKEN
+      GK_TOKEN: A_TOKEN
       PK_TOKEN: a_token_post
-      NK_TOKEN: B_TOKEN
+      NK_TOKEN: a_token
       SK_TOKEN: A_TOKEN_POST
     steps:
       - name: Run GitHub Script
