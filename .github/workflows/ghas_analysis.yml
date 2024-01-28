@@ -1,0 +1,35 @@
+name: GitHub Advanced Security Code Scanning
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code_scanning:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        language: [ 'python', 'javascript', 'java', 'ruby', 'csharp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup CodeQL
+      uses: github/codeql-action/setup-codeql@v2
+
+    - name: Initialize CodeQL
+      run: codeql database init --language=${{ matrix.language }}
+
+    - name: Run CodeQL Analysis
+      run: codeql analyze --language=${{ matrix.language }} --format=sarif -o codeql-results.sarif
+
+    - name: Upload SARIF results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: codeql-results.sarif
