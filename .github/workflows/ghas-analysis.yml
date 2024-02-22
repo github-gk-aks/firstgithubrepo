@@ -1,0 +1,68 @@
+name: GHAS Analysis
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  schedule:
+    - cron '0 2 30 * *'
+
+jobs:
+  analyze:
+    if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'go' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+          config-file: ./.github/codeql/codeql-config.yml
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      # Run CodeQL analysis
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  dependencyCheck:
+    name: Dependency Checkout
+    runs-on: ubuntu-latest
+
+    strategy:
+    fail-fast: false
+    matrix: 
+      language: [ 'go' ]
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: GK Dependency Checkout
+        run: mvn dependency-check:check
+        continue-on-error: true
+
+      # Upload the SARIF results
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v1
+        continue-on-error: true
+        with:
+          sarif_file: target/dependency-check-report.sarfi
+
+      - name: Upload Gk dependency scan report
+        if : always()
+        uses: actions/upload-artifact@v1
+        continue-on-error: true
+        with:
+          name: gk-dependency-check-report
+          path: ${{ github.workspace }}/target/dependency-check-report.html
