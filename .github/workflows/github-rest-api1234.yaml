@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Mineral-Water-Company/Coke2litre
-          token: ${{ secrets.D_TOKEN_POST}}
+          token: ${{ secrets.A_TOKEN_POST}}
           ref: v2.2.1
           path: ./github/actions/Coke2litre
       - name: Get Commit Artifacts
