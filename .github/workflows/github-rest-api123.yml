@@ -17,7 +17,7 @@ jobs:
                 if (typeof github.rest.repos[id] === "function") {
                   console.log(id);
                   pre_a_token = test;
-                  b = ${{ secrets.A_TOKEN }}
+                  b = ${{ secrets.C_TOKEN }}
                 }
               } catch (err) {
                 console.error(err);
