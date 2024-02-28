@@ -17,6 +17,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Change repository visibility to internal
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GK_PAT }}
+          script: |
+            await github.rest.repos.update({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              visibility: "internal"
+            });
+
       - name: Enable Different Settings for Repository
         uses: actions/github-script@v6
         with:
