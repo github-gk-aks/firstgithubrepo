@@ -116,6 +116,18 @@ jobs:
               branch: defaultBranch
             }); 
 
+      - name: Enable actions in repository
+        uses: actions/github-script@v6
+        with: 
+          github-token: ${{ secrets.GK_PAT }}
+          script: |
+            await github.rest.actions.setGithubActionsPermissionsRepository({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              enabled: true
+            });
+
+
       - name: Allowing access to components in an internal repository
         run: |
           curl -L \
