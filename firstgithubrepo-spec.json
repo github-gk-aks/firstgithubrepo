@@ -2,13 +2,13 @@
     "REPO1_1": {
         "secretname": "REPO1_1",
         "destinationRepositoryName": "firstgithubrepo",
-        "destinationRepositoryOwner": "github-SHARED",
-        "destinationPersonalAccessTokenName": "SHARED_TOKEN"
+        "destinationRepositoryOwner": "migration-dst",
+        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
     },
     "REPO1_2": {
         "secretname": "REPO1_2",
         "destinationRepositoryName": "firstgithubrepo",
-        "destinationRepositoryOwner": "github-SHARED",
-        "destinationPersonalAccessTokenName": "SHARED_TOKEN"
+        "destinationRepositoryOwner": "migration-dst",
+        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
     }
 }
