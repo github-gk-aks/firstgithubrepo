@@ -1,0 +1,14 @@
+{
+    "REPO1_1": {
+        "secretname": "REPO1_1",
+        "destinationRepositoryName": "firstgithubrepo",
+        "destinationRepositoryOwner": "github-SHARED",
+        "destinationPersonalAccessTokenName": "SHARED_TOKEN"
+    },
+    "REPO1_2": {
+        "secretname": "REPO1_2",
+        "destinationRepositoryName": "firstgithubrepo",
+        "destinationRepositoryOwner": "github-SHARED",
+        "destinationPersonalAccessTokenName": "SHARED_TOKEN"
+    }
+}
