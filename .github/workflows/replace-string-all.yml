@@ -1,4 +1,4 @@
-name: Replace Strings
+name: Replace Strings ALL
 
 on:
   push:
