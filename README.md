@@ -9,3 +9,5 @@ Testing workflow - Iteration 1
 
 gh workflow run secret-migration-environment.yml --ref github-migration -F json-migration-spec=@firstgithubrepo-env-spec.json
 
+@gk-aks-Digital-Migration
+gk-aks-Digital
