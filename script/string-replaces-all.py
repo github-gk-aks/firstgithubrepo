@@ -5,7 +5,7 @@ import glob
 
 def replace_strings(excel_path, repo_path):
     # Load Excel file
-    wb = openpyxl.load_workbook(excel_path)
+    wb = openpyxl.load_workbook(filename=excel_path, read_only=True)
     sheet = wb.active
 
     # Get list of all files in repository (excluding .git directory)
