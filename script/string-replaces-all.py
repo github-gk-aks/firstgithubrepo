@@ -13,6 +13,9 @@ def replace_strings(excel_path, repo_path):
 
     # Iterate through all files
     for file_path in all_files:
+        # Iterate through all files
+        if file_path.endswith('.xlsx'):
+            continue
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
