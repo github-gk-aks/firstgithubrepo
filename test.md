@@ -1,4 +1,4 @@
 Testing Commit Sign
 
 
-@gk-aks-Digital/firstgithubrepo.git
+@gk-aks-Shared/firstgithubrepo.git
