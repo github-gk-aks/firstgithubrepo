@@ -1,0 +1,8 @@
+{
+    "DEV_ENV_3": {
+        "secretname": "DEV_ENV_3",
+        "destinationEnvironmentName": "prod",
+        "destinationRepositoryId": "768239351",
+        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
+    }
+}
