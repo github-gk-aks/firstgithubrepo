@@ -9,7 +9,7 @@ on:
 
 jobs:
   replace-runs-on:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
       - name: Replace Strings in Workflow Files
         run: |
             for file in $(find .github/workflows -name '*.yml' -not -name 'replace-runner.yml' -not -name 'settings-meet-standard.yml' -not -name 'add-license-file.yml' -not -name 'replace-string.yml'); do
-            sed -i 's/ubuntu-latest/windows-latest/g' "$file"
+            sed -i 's/windows-latest/windows-latest/g' "$file"
             done
 
       - name: Check for Changes
