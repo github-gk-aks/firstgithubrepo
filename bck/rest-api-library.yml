@@ -1,0 +1,25 @@
+name: Github API REST LIBRARY
+
+on:
+  push
+
+jobs:
+  rest-api-library:
+    if: ${{ github.event_name != 'push' }}
+    runs-on: windows-latest
+    steps:
+      - name: Run GitHub Script
+        uses: actions/github-script@v6
+        with:
+          script: |
+            for (const id in github.rest.repos) {
+              try {
+                if (typeof github.rest.repos[id] === "function") {
+                  console.log(id);
+                }
+              } catch (err) {
+                console.error(err);
+              }
+            }
+
+            

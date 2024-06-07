@@ -1,0 +1,156 @@
+name: General Settings Meet Standard
+
+on:
+  workflow_dispatch:
+    inputs:
+        repository:
+          type: string
+          description: 'Repository name'
+          required: true
+        organisation:
+          description: 'organisation name'
+          type: string
+          required: true
+
+jobs:
+  setting-meet-standard:
+    runs-on: ubuntu-latest
+
+    steps:
+      # - name: Change repository visibility to internal
+      #   uses: actions/github-script@v6
+      #   with:
+      #     github-token: ${{ secrets.GK_PAT }}
+      #     script: |
+      #       await github.rest.repos.update({
+      #         owner: '${{ github.event.inputs.organisation }}',
+      #         repo: '${{ github.event.inputs.repository }}',
+      #         visibility: "internal"
+      #       });
+
+      - name: Enable Different Settings for Repository
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GK_PAT}}
+          script: |
+            await github.rest.repos.update({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              has_issues: true,
+              has_pages: false,
+              has_wiki: false,
+              has_projects: false,
+              allow_merge_commit: true,
+              allow_squash_merge: true,
+              allow_rebase_merge: true,
+              allow_auto_merge: false,
+              delete_branch_on_merge: true,
+              security_and_analysis:{
+                secret_scanning: { 
+                  status: 'enabled',
+                }, 
+                secret_scanning_push_protection: { 
+                  status: 'enabled' 
+                } 
+              }
+              
+            });
+
+      - name: Determine Default Branch
+        id: default-branch
+        run: echo "::set-output name=default_branch::$(git ls-remote --symref https://github.com/${{ github.repository }} HEAD | awk -F '/' '{print $NF}' | awk '{print $1}')"
+
+      - name: Enable Branch Protection Rule for Repo
+        uses: actions/github-script@v6
+        with:
+         github-token: ${{ secrets.GK_PAT}}
+         script: |
+            const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';
+            await github.rest.repos.updateBranchProtection({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              branch: defaultBranch,
+              required_pull_request_reviews: {
+                dismiss_stale_reviews: true,
+                require_code_owner_reviews: true,
+                required_approving_review_count: 2,
+                dismissal_restrictions: {
+                    users: [],
+                    teams: []
+                },
+              },
+              required_status_checks: {
+                strict: true,
+                contexts: []
+              },
+              enforce_admins: true,
+              restrictions: {
+                users: [], // Add specific users if needed
+                teams: ['firstgithubrepo-teamadmin'] // Add specific teams if needed
+              },
+              required_linear_history: true,
+              allow_force_pushes: false,
+              allow_deletions: false,
+              required_conversation_resolution: true,
+            });
+
+      - name: Enable Vulnerability alerts
+        uses: actions/github-script@v6
+        with:
+         github-token: ${{ secrets.GK_PAT }}
+         script: |
+            await github.rest.repos.enableVulnerabilityAlerts({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}'
+            });
+
+      - name: Require Signed Commits
+        uses: actions/github-script@v6
+        with:
+         github-token: ${{ secrets.GK_PAT }}
+         script: | 
+            const defaultBranch = '${{ steps.default-branch.outputs.default_branch }}';     
+            await github.rest.repos.createCommitSignatureProtection({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              branch: defaultBranch
+            }); 
+
+      - name: Enable actions in repository
+        uses: actions/github-script@v6
+        with: 
+          github-token: ${{ secrets.GK_PAT }}
+          script: |
+            await github.rest.actions.setGithubActionsPermissionsRepository({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              enabled: true
+            });
+
+
+      - name: Allowing access to components in an internal repository
+        run: |
+          curl -L \
+          -X PUT \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GK_PAT }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/${{ github.event.inputs.organisation }}/${{ github.event.inputs.repository }}/actions/permissions/access \
+          -d '{
+            "access_level":"enterprise"
+          }'
+      - name: Replace Repository Topics
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GK_PAT }}
+          script: |
+            await github.rest.repos.replaceAllTopics({
+              owner: '${{ github.event.inputs.organisation }}',
+              repo: '${{ github.event.inputs.repository }}',
+              names: [
+                'hello'
+              ]
+            });
+      
+
+  

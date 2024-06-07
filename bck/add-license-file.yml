@@ -1,0 +1,72 @@
+name: Add License File
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      licenseContent:
+        type: string
+        description: 'license content'
+        required: true
+
+jobs:
+  add-license:
+    if: ${{ github.event_name != 'push' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+            token: ${{ secrets.GK_PAT }}
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.PASSPHRASE }}
+      
+      - name: Add the custom gpg siging program that passes the passphrase to the gpg CLI
+        run: |
+            rm -rf /tmp/gpg.sh
+            echo '#!/bin/bash' >> /tmp/gpg.sh
+            echo 'gpg --batch --pinentry-mode=loopback --passphrase $GPG_KEY_PASSPHRASE $@' >> /tmp/gpg.sh
+            chmod +x /tmp/gpg.sh
+
+      - name: Setup git
+        run: |
+            git config commit.gpgsign true
+            git config user.signingkey $GPG_KEY_ID
+            git config gpg.program /tmp/gpg.sh
+        env:
+            GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+
+    #   - name: Decode license content
+    #     id: decode-license
+    #     run: |
+    #       echo "${{ inputs.licenseContent }}" | base64 -d
+    #       echo "::set-output name=decoded_license::$(echo "${{ inputs.licenseContent }}" | base64 -d)"
+
+      - name: Determine Default Branch
+        id: default-branch
+        run: echo "::set-output name=default_branch::$(git ls-remote --symref https://github.com/${{ github.repository }} HEAD | awk -F '/' '{print $NF}' | awk '{print $1}')"  
+    
+      - name: Check if license file exists
+        id: check-license
+        run: |
+          defaultBranch='${{ steps.default-branch.outputs.default_branch }}'
+          git fetch
+          git checkout $defaultBranch
+          git pull origin $defaultBranch
+          if [ ! -f "LICENSE" ]; then
+            echo "License file not found. Creating..."
+            git checkout github-migration
+            echo "${{ inputs.licenseContent }}" > LICENSE
+            git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
+            git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
+            git add LICENSE
+            git commit -m "Add LICENSE file - $(date +"%Y-%m-%d %H:%M:%S") "
+            git push origin github-migration
+          else
+            echo "License file found. Skipping..."
+          fi
