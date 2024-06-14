@@ -1,7 +1,9 @@
 # This is a sample CODEOWNERS file
 
 # Team responsible for the entire repository
+
 *       @GK-aks-digITAL
+
 
 # Individual owner for a specific directory
 /docs/* @john_doe
