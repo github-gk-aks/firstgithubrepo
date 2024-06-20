@@ -12,7 +12,7 @@ on:
 jobs:
   add-license:
     if: ${{ github.event_name != 'push' }}
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
@@ -47,6 +47,7 @@ jobs:
     #       echo "${{ inputs.licenseContent }}" | base64 -d
     #       echo "::set-output name=decoded_license::$(echo "${{ inputs.licenseContent }}" | base64 -d)"
 
+
       - name: Determine Default Branch
         id: default-branch
         run: echo "::set-output name=default_branch::$(git ls-remote --symref https://github.com/${{ github.repository }} HEAD | awk -F '/' '{print $NF}' | awk '{print $1}')"  
@@ -66,6 +67,7 @@ jobs:
             git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
             git add LICENSE
             git commit -m "Add LICENSE file - $(date +"%Y-%m-%d %H:%M:%S") "
+
             git push origin github-migration
           else
             echo "License file found. Skipping..."
