@@ -1,20 +1,26 @@
 {
     "PROD_ENV_1": {
         "secretname": "PROD_ENV_1",
-        "destinationEnvironmentName": "prod",
-        "destinationRepositoryId": "098765432",
-        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
+        "destinationEnvironmentName": "Pre production",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
+    },
+    "PROD_ENV_4": {
+        "secretname": "PROD_ENV_4",
+        "destinationEnvironmentName": "Pre production",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     },
     "PROD_ENV_2": {
         "secretname": "PROD_ENV_2",
         "destinationEnvironmentName": "test",
-        "destinationRepositoryId": "098765432",
-        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     },
     "PROD_ENV_3": {
         "secretname": "PROD_ENV_3",
         "destinationEnvironmentName": "qa",
-        "destinationRepositoryId": "0984356547",
-        "destinationPersonalAccessTokenName": "DST_SECRET_TOKEN"
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     }
 }
