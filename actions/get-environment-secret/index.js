@@ -1,12 +1,29 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { Octokit } = require('@octokit/rest');
 
 async function run() {
   try {
     const token = core.getInput('repo-token');
     const environment = core.getInput('environment');
     const secretName = core.getInput('secret-name');
-    const octokit = github.getOctokit(token);
+
+    const octokit = new Octokit({
+        auth: token,
+        userAgent: 'octokit/rest.js v20.0.1',
+        baseUrl: 'https://api.github.com',
+        log: {
+          debug: () => {},
+          info: () => {},
+          warn: console.warn,
+          error: console.error
+        },
+        request: {
+          agent: undefined,
+          fetch: undefined,
+          timeout: 0
+        }
+      });
 
     const { owner, repo } = github.context.repo;
 
