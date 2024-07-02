@@ -24,6 +24,8 @@ async function run() {
 
     // Fetch secrets for the specified environment
     console.log(`Fetching secrets for environment: ${encodedEnvironment}`);
+    console.log(`Fetching owner name: ${owner}`);
+    console.log(`Fetching repo name: ${repo}`);
     const secretsResponse = await octokit.rest.actions.listEnvironmentSecrets({
       owner,
       repo,
