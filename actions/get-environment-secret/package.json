@@ -1,16 +1,12 @@
 {
     "name": "get-environment-secret",
     "version": "1.0.0",
-    "description": "A GitHub action to fetch an environment secret using the GitHub API",
     "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
+    "license": "MIT",
     "dependencies": {
-      "@actions/core": "^1.2.6",
+      "@actions/core": "^1.6.0",
       "@actions/github": "^4.0.0"
-    },
-    "author": "",
-    "license": "ISC"
+    }
   }
+  
   
