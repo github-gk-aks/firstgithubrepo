@@ -23,7 +23,7 @@ async function run() {
     const secretsResponse = await octokit.rest.actions.listEnvironmentSecrets({
       owner,
       repo,
-      environment_name: `${environment}`,
+      environment_name: prod,
     });
     console.log('Available secrets in environment:', secretsResponse.data);
 
