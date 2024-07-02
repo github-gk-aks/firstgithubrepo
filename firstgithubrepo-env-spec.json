@@ -1,25 +1,25 @@
 {
-    "PROD_ENV_1": {
-        "secretname": "PROD_ENV_1",
-        "destinationEnvironmentName": "Pre production",
+    "AWS_DEPLOYMENT_SECRET_KEY": {
+        "secretname": "AWS_DEPLOYMENT_SECRET_KEY",
+        "destinationEnvironmentName": "prod",
         "destinationRepositoryId": "818961910",
         "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     },
-    "PROD_ENV_4": {
-        "secretname": "PROD_ENV_4",
-        "destinationEnvironmentName": "Pre production",
+    "AWS_DEPLOYMENT_KEY_ID": {
+        "secretname": "AWS_DEPLOYMENT_KEY_ID",
+        "destinationEnvironmentName": "prod",
         "destinationRepositoryId": "818961910",
         "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     },
-    "PROD_ENV_2": {
-        "secretname": "PROD_ENV_2",
-        "destinationEnvironmentName": "test",
+    "AWS_DEPLOYMENT_ROLE": {
+        "secretname": "AWS_DEPLOYMENT_ROLE",
+        "destinationEnvironmentName": "prod",
         "destinationRepositoryId": "818961910",
         "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     },
-    "PROD_ENV_3": {
-        "secretname": "PROD_ENV_3",
-        "destinationEnvironmentName": "qa",
+    "EXECUTION_ROLE": {
+        "secretname": "EXECUTION_ROLE",
+        "destinationEnvironmentName": "prod",
         "destinationRepositoryId": "818961910",
         "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
     }
