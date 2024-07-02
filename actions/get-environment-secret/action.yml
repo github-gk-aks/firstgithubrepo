@@ -10,9 +10,9 @@ inputs:
   secret-name:
     description: 'Secret name'
     required: true
-# outputs:
-#   secret-value:
-#     description: 'Value of the environment secret'
+outputs:
+  secret-value:
+    description: 'Value of the environment secret'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'index.js'
