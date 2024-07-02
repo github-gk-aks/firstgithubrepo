@@ -12,6 +12,6 @@
     "@octokit/rest": "^20.0.1",
     "node-fetch": "^3.3.2"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "GK",
+  "license": "MIT"
 }

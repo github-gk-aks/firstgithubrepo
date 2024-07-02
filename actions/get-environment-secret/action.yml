@@ -14,5 +14,5 @@ outputs:
   secret-value:
     description: 'Value of the environment secret'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'index.mjs'
