@@ -12,6 +12,7 @@ async function run() {
 
     // URL encode the environment name
     const encodedEnvironment = encodeURIComponent(environment);
+    console.log(`Encoded environment name: ${encodedEnvironment}`);
 
     // Fetch environment information
     console.log(`Fetching environments for repo: ${owner}/${repo}`);
