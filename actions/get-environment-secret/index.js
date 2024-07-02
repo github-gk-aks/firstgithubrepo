@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const { Octokit } = require('@octokit/rest');
+const fetch = require('node-fetch'); // Import node-fetch
 
 async function run() {
   try {
