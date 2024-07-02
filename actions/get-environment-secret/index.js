@@ -7,25 +7,28 @@ async function run() {
     const environment = core.getInput('environment');
     const secretName = core.getInput('secret-name');
     const octokit = github.getOctokit(token);
-    
+
     const { owner, repo } = github.context.repo;
 
-    // Fetch available environments
+    // URL encode the environment name
+    const encodedEnvironment = encodeURIComponent(environment);
+
+    // Fetch environment information
     console.log(`Fetching environments for repo: ${owner}/${repo}`);
     const environmentsResponse = await octokit.rest.repos.getAllEnvironments({
       owner,
       repo,
     });
-    console.log('Available environments:', environmentsResponse.data);
-    
-    // Fetch secrets in the specified environment
-    console.log(`Fetching secrets for environment: ${environment}`);
+    console.log('Available environments:', JSON.stringify(environmentsResponse.data, null, 2));
+
+    // Fetch secrets for the specified environment
+    console.log(`Fetching secrets for environment: ${encodedEnvironment}`);
     const secretsResponse = await octokit.rest.actions.listEnvironmentSecrets({
       owner,
       repo,
-      environment_name: prod,
+      environment_name: encodedEnvironment,
     });
-    console.log('Available secrets in environment:', secretsResponse.data);
+    console.log('Available secrets in environment:', JSON.stringify(secretsResponse.data, null, 2));
 
     const secret = secretsResponse.data.secrets.find(secret => secret.name === secretName);
 
