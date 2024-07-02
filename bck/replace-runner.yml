@@ -1,0 +1,83 @@
+name: Update Runner Name
+
+on:
+    workflow_dispatch:
+    #inputs:
+      #branch:
+        #description: 'Target Branch'
+        #required: true
+
+jobs:
+  replace-runs-on:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+            token: ${{ secrets.GK_PAT }}
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+            gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+            passphrase: ${{ secrets.PASSPHRASE }}
+      
+      - name: Add the custom gpg siging program that passes the passphrase to the gpg CLI
+        run: |
+            rm -rf /tmp/gpg.sh
+            echo '#!/bin/bash' >> /tmp/gpg.sh
+            echo 'gpg --batch --pinentry-mode=loopback --passphrase $GPG_KEY_PASSPHRASE $@' >> /tmp/gpg.sh
+            chmod +x /tmp/gpg.sh
+
+      - name: Setup git
+        run: |
+            git config commit.gpgsign true
+            git config user.signingkey $GPG_KEY_ID
+            git config gpg.program /tmp/gpg.sh
+        env:
+            GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+
+      - name: Create and Checkout github-migraion branch
+        run: |
+            git checkout  github-migration  # Replace 'branch-name' with the desired branch name
+        working-directory: ${{ github.workspace }}
+
+      - name: Replace Strings in Workflow Files
+        run: |
+            for file in $(find .github/workflows -name '*.yml' -not -name 'replace-runner.yml' -not -name 'settings-meet-standard.yml' -not -name 'add-license-file.yml' -not -name 'replace-string.yml'); do
+            sed -i 's/ubuntu-latest/windows-latest/g' "$file"
+            done
+
+      - name: Check for Changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit. Skipping commit step."
+            echo "::set-output name=changes::false"
+          else
+            echo "::set-output name=changes::true"
+          fi
+        shell: bash
+
+      - name: Commit Changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+            git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
+            git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
+            git add .
+            git commit -m "Replace runs-on parameter - $(date +"%Y-%m-%d %H:%M:%S")"
+            git push  
+        working-directory: ${{ github.workspace }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.GK_PAT }}
+
+      #- name: Push Changes to New Branch
+      #  run: |
+       #     git push --set-upstream origin github-migration  # Replace 'branch-name' with the branch name
+        #working-directory: ${{ github.workspace }}
+        #env:
+           # GITHUB_TOKEN: ${{ secrets.GK_PAT }}
+
+         #echo "ORG: ${{ github.event.repository.owner.name }}"
+         #echo "Repo: $GITHUB_REPOSITORY"
+         #git remote set-url origin https://x-access-token:${{ secrets.GK_PAT }}@github.com/${{ github.repository }}.git

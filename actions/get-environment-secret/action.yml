@@ -1,0 +1,18 @@
+name: 'Get Environment Secret'
+description: 'Fetch an environment secret using the GitHub API'
+inputs:
+  repo-token:
+    description: 'GitHub Token with repo and secrets access'
+    required: true
+  environment:
+    description: 'Environment name'
+    required: true
+  secret-name:
+    description: 'Secret name'
+    required: true
+outputs:
+  secret-value:
+    description: 'Value of the environment secret'
+runs:
+  using: 'node16'
+  main: 'index.js'

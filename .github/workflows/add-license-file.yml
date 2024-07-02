@@ -47,18 +47,27 @@ jobs:
     #       echo "${{ inputs.licenseContent }}" | base64 -d
     #       echo "::set-output name=decoded_license::$(echo "${{ inputs.licenseContent }}" | base64 -d)"
 
+
+      - name: Determine Default Branch
+        id: default-branch
+        run: echo "::set-output name=default_branch::$(git ls-remote --symref https://github.com/${{ github.repository }} HEAD | awk -F '/' '{print $NF}' | awk '{print $1}')"  
+    
       - name: Check if license file exists
         id: check-license
         run: |
-          git checkout main
+          defaultBranch='${{ steps.default-branch.outputs.default_branch }}'
+          git fetch
+          git checkout $defaultBranch
+          git pull origin $defaultBranch
           if [ ! -f "LICENSE" ]; then
             echo "License file not found. Creating..."
-            echo "${{ inputs.licenseContent }}" > LICENSE
             git checkout github-migration
+            echo "${{ inputs.licenseContent }}" > LICENSE
             git config user.email ${{ secrets.GIT_COMMITTER_EMAIL }}
             git config user.name ${{ secrets.GIT_COMMITTER_NAME }}
             git add LICENSE
-            git commit -m "Add LICENSE file"
+            git commit -m "Add LICENSE file - $(date +"%Y-%m-%d %H:%M:%S") "
+
             git push origin github-migration
           else
             echo "License file found. Skipping..."
