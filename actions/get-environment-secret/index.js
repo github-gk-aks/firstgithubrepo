@@ -71,6 +71,7 @@ async function run() {
       throw new Error(`Secret '${secretName}' not found in environment '${environment}'`);
     }
 
+    console.log(`Secret value for '${secretName}':`, secret.value);
     core.setOutput('secret-value', secret.value);
   } catch (error) {
     console.error('Error:', error);
