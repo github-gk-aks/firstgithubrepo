@@ -31,6 +31,9 @@ async function run() {
       repo,
       environment_name: encodedEnvironment,
     });
+    // Log the response
+    console.log('Secrets response:', secretsResponse.data);
+    
     console.log('Available secrets in environment:', JSON.stringify(secretsResponse.data, null, 2));
 
     const secret = secretsResponse.data.secrets.find(secret => secret.name === secretName);
