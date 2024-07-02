@@ -28,6 +28,7 @@ async function run() {
       owner,
       repo,
       environment_name: encodedEnvironment,
+      secret_name: secretName,
     });
     console.log('Available secrets in environment:', JSON.stringify(secretsResponse.data, null, 2));
 
