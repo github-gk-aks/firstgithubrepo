@@ -1,0 +1,26 @@
+{
+    "AWS_DEPLOYMENT_SECRET_KEY": {
+        "secretname": "AWS_DEPLOYMENT_SECRET_KEY",
+        "destinationEnvironmentName": "prod",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
+    },
+    "AWS_DEPLOYMENT_KEY_ID": {
+        "secretname": "AWS_DEPLOYMENT_KEY_ID",
+        "destinationEnvironmentName": "prod",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
+    },
+    "AWS_DEPLOYMENT_ROLE": {
+        "secretname": "AWS_DEPLOYMENT_ROLE",
+        "destinationEnvironmentName": "prod",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
+    },
+    "EXECUTION_ROLE": {
+        "secretname": "EXECUTION_ROLE",
+        "destinationEnvironmentName": "prod",
+        "destinationRepositoryId": "818961910",
+        "destinationPersonalAccessTokenName": "DEST_SECRET_MIG_TOKEN"
+    }
+}

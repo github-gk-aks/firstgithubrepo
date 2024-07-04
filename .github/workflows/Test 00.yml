@@ -1,7 +1,7 @@
 name: Github API REST LIBRARY
 
 on:
-  push
+  push:
 
 jobs:
   rest-api-library:
@@ -22,4 +22,11 @@ jobs:
               }
             }
 
-            
+      - name: Checking out the repository
+        uses: actions/checkout@v4
+        with:
+          repository: gk-aks-Confidential/fifthgithubrepo
+          token: ${{ secrets.B_TOKEN}}
+          ref: v2.2.1
+          path: ./github/actions/Pepsi250mlcan
+      - uses: ./github/actions/Pepsi250mlcan
